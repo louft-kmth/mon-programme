@@ -1,6 +1,6 @@
 'use client'
 import { useState, useMemo } from 'react'
-import { Dumbbell, UtensilsCrossed, BarChart3, RotateCcw } from 'lucide-react'
+import { Dumbbell, UtensilsCrossed, Wind, RotateCcw } from 'lucide-react'
 import { useLocalStorage } from '@/lib/use-local-storage'
 import { getAllWeeks } from '@/lib/program-data'
 import WeekSelector from '@/components/WeekSelector'
@@ -9,26 +9,26 @@ import DayCards from '@/components/DayCards'
 import ExercisePanel from '@/components/ExercisePanel'
 import ProgressBar from '@/components/ProgressBar'
 import NutritionTab from '@/components/NutritionTab'
-import StatsOverview from '@/components/StatsOverview'
+import VacuumTab from '@/components/VacuumTab'
 
 const TABS = [
   { id: 'sport', label: 'Sport', icon: Dumbbell },
   { id: 'nutrition', label: 'Alimentation', icon: UtensilsCrossed },
-  { id: 'stats', label: 'Stats', icon: BarChart3 },
+  { id: 'vacuum', label: 'Vacuum', icon: Wind },
 ]
 
 export default function HomePage() {
   const [tab, setTab] = useState('sport')
   const [currentWeek, setCurrentWeek] = useState(0)
   const [currentDay, setCurrentDay] = useState(0)
-  const [checked, setChecked, loaded] = useLocalStorage('prog-v2-checked', {})
+  const [checked, setChecked, loaded] = useLocalStorage('prog-conge-checked', {})
 
   const weeks = useMemo(() => getAllWeeks(), [])
   const week = weeks[currentWeek]
   const day = week.days[currentDay]
 
   const toggleExercise = (key) => setChecked(prev => ({ ...prev, [key]: !prev[key] }))
-  const resetAll = () => { if (confirm('Remettre toute la progression à zéro ?')) setChecked({}) }
+  const resetAll = () => { if (confirm('Remettre la progression à zéro ?')) setChecked({}) }
 
   const checkedCounts = useMemo(() => {
     const counts = {}
@@ -42,7 +42,7 @@ export default function HomePage() {
 
   if (!loaded) return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="w-6 h-6 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+      <div className="w-6 h-6 border-2 border-coral border-t-transparent rounded-full animate-spin" />
     </div>
   )
 
@@ -52,10 +52,10 @@ export default function HomePage() {
         <div className="max-w-2xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <h1 className="font-display text-xl font-semibold">Mon programme</h1>
-              <p className="text-xs text-ink-3">8 semaines · objectif 55-60kg</p>
+              <h1 className="font-display text-xl font-semibold">🔥 Programme Congé</h1>
+              <p className="text-xs text-ink-3">2 semaines intensives · focus ventre</p>
             </div>
-            <button onClick={resetAll} className="p-2 rounded-lg hover:bg-bg-2 text-ink-3 hover:text-ink transition-colors" title="Remettre à zéro">
+            <button onClick={resetAll} className="p-2 rounded-lg hover:bg-bg-2 text-ink-3 hover:text-ink transition-colors" title="Reset">
               <RotateCcw size={16} />
             </button>
           </div>
@@ -75,14 +75,14 @@ export default function HomePage() {
         {tab === 'sport' && (
           <>
             <WeekSelector currentWeek={currentWeek} onSelect={(i) => { setCurrentWeek(i); setCurrentDay(0) }} />
-            <PhaseBanner weekIndex={currentWeek} />
+            <PhaseBanner />
             <DayCards days={week.days} currentDay={currentDay} onSelect={setCurrentDay} checkedCounts={checkedCounts} />
             <ExercisePanel day={day} weekIndex={currentWeek} dayIndex={currentDay} checked={checked} onToggle={toggleExercise} />
             <ProgressBar weekIndex={currentWeek} checkedCounts={checkedCounts} />
           </>
         )}
         {tab === 'nutrition' && <NutritionTab />}
-        {tab === 'stats' && <StatsOverview checked={checked} />}
+        {tab === 'vacuum' && <VacuumTab />}
       </main>
       <div className="h-8" />
     </div>

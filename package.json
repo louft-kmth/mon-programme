@@ -1,6 +1,6 @@
 {
-  "name": "mon-programme-8-semaines",
-  "version": "2.0.0",
+  "name": "mon-programme-conge",
+  "version": "3.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",

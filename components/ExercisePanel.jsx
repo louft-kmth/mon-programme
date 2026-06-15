@@ -1,32 +1,22 @@
 'use client'
-import { Check, AlertTriangle, Shield } from 'lucide-react'
+import { Check, Shield, Flame } from 'lucide-react'
 
 export default function ExercisePanel({ day, weekIndex, dayIndex, checked, onToggle }) {
-  const isTrajet = day.type === 'trajet'
-  const isSport = !isTrajet && day.type !== 'repos'
   let globalIdx = 0
+  const isSport = day.type !== 'repos'
 
   return (
     <div className="bg-white rounded-card border border-bg-3/60 overflow-hidden">
       <div className="px-5 pt-5 pb-3">
         <h3 className="text-lg font-semibold font-display">{day.name} — {day.title}</h3>
-        <p className="text-sm text-ink-3 mt-0.5">Semaine {weekIndex + 1}</p>
+        <p className="text-sm text-ink-3 mt-0.5">Semaine {weekIndex + 1} — Programme congé</p>
       </div>
 
-      {isTrajet && (
-        <div className="mx-5 mb-3 flex items-start gap-2.5 bg-amber-light rounded-lg p-3">
-          <AlertTriangle size={16} className="text-amber mt-0.5 flex-shrink-0" />
-          <p className="text-sm text-amber-dark">
-            Jour Chartres — 6h de trajet. Les 6000+ pas comptent comme activité. Options douces le soir si tu as l'énergie.
-          </p>
-        </div>
-      )}
-
       {isSport && (
-        <div className="mx-5 mb-3 flex items-start gap-2.5 bg-accent-light rounded-lg p-3">
-          <Shield size={16} className="text-accent mt-0.5 flex-shrink-0" />
-          <p className="text-sm text-accent-dark">
-            <span className="font-medium">Règle périnée :</span> expire à chaque effort + serre le périnée. Pas d'apnée sous charge.
+        <div className="mx-5 mb-3 flex items-start gap-2.5 bg-coral-light rounded-lg p-3">
+          <Flame size={16} className="text-coral mt-0.5 flex-shrink-0" />
+          <p className="text-sm text-coral-dark">
+            <span className="font-medium">Focus ventre :</span> rentre le ventre + expire sur chaque effort. Périnée serré.
           </p>
         </div>
       )}

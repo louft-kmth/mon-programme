@@ -1,8 +1,8 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'Mon Programme 8 Semaines',
-  description: 'Programme sport + alimentation — objectif 55-60kg',
+  title: 'Programme Congé — Spécial Ventre',
+  description: '2 semaines intensives focus ventre',
 }
 
 export default function RootLayout({ children }) {
