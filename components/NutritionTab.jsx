@@ -1,25 +1,30 @@
 'use client'
 import { useState } from 'react'
-import { ShoppingCart, Utensils, ChevronDown, ChevronUp, Apple, Scale } from 'lucide-react'
-import { NUTRITION_RULES, MEALS, SHOPPING_LIST, SNACKS } from '@/lib/program-data'
+import { ShoppingCart, Utensils, Train, Home, ChevronDown, ChevronUp, Apple, Scale } from 'lucide-react'
+import { NUTRITION_RULES, MEALS_HOME, MEALS_CHARTRES, SHOPPING_LIST, SNACKS } from '@/lib/program-data'
 
 function MealCard({ meal }) {
-  const [openOption, setOpenOption] = useState(0)
+  const [open, setOpen] = useState(0)
   return (
     <div className="bg-white rounded-card border border-bg-3/60 overflow-hidden">
       <div className="px-5 pt-4 pb-3 flex items-center gap-2">
         <Utensils size={14} className="text-ink-3" />
         <h4 className="font-semibold text-sm">{meal.title}</h4>
       </div>
+      {meal.note && (
+        <div className="mx-5 mb-3 bg-amber-light rounded-lg p-3">
+          <p className="text-sm text-amber-dark">{meal.note}</p>
+        </div>
+      )}
       <div className="px-5 pb-4">
         {meal.options.map((opt, i) => (
           <div key={i} className="mb-2 last:mb-0">
-            <button onClick={() => setOpenOption(openOption === i ? -1 : i)}
+            <button onClick={() => setOpen(open === i ? -1 : i)}
               className="w-full flex items-center justify-between py-2 text-left">
               <span className="text-sm font-medium text-ink">{opt.name}</span>
-              {openOption === i ? <ChevronUp size={14} className="text-ink-3" /> : <ChevronDown size={14} className="text-ink-3" />}
+              {open === i ? <ChevronUp size={14} className="text-ink-3" /> : <ChevronDown size={14} className="text-ink-3" />}
             </button>
-            {openOption === i && (
+            {open === i && (
               <div className="pl-4 pb-2">
                 <ul className="space-y-1 mb-2">
                   {opt.items.map((item, j) => (
@@ -44,16 +49,12 @@ function MealCard({ meal }) {
 }
 
 export default function NutritionTab() {
+  const [dayType, setDayType] = useState('home')
   const [showList, setShowList] = useState(false)
+  const meals = dayType === 'home' ? MEALS_HOME : MEALS_CHARTRES
 
   return (
     <div>
-      <div className="bg-coral-light rounded-card border border-coral/20 p-4 mb-5">
-        <p className="text-sm text-coral-dark font-medium">
-          🔥 En congé tu contrôles tout : pas de cantine, pas de restos forcés. C'est LE moment pour être irréprochable sur l'alimentation.
-        </p>
-      </div>
-
       <div className="grid grid-cols-2 gap-2.5 mb-5">
         {NUTRITION_RULES.map((rule, i) => (
           <div key={i} className="bg-white rounded-card border border-bg-3/60 p-3 flex items-start gap-2.5">
@@ -63,10 +64,23 @@ export default function NutritionTab() {
         ))}
       </div>
 
+      <div className="flex gap-2 mb-5">
+        <button onClick={() => setDayType('home')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all
+            ${dayType === 'home' ? 'bg-teal-light text-teal-dark border-2 border-teal/30' : 'bg-bg-2 text-ink-2 border border-transparent'}`}>
+          <Home size={14} /> Jours maison
+        </button>
+        <button onClick={() => setDayType('chartres')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all
+            ${dayType === 'chartres' ? 'bg-amber-light text-amber-dark border-2 border-amber/30' : 'bg-bg-2 text-ink-2 border border-transparent'}`}>
+          <Train size={14} /> Mardi / Mercredi
+        </button>
+      </div>
+
       <div className="space-y-3 mb-5">
-        <MealCard meal={MEALS.matin} />
-        <MealCard meal={MEALS.midi} />
-        <MealCard meal={MEALS.soir} />
+        <MealCard meal={meals.matin} />
+        <MealCard meal={meals.midi} />
+        <MealCard meal={meals.soir} />
       </div>
 
       <div className="bg-white rounded-card border border-bg-3/60 p-4 mb-5">

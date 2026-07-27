@@ -14,7 +14,8 @@ export default function DayCards({ days, currentDay, onSelect, checkedCounts }) 
             className={`card-hover text-left rounded-card p-3 border transition-all
               ${active ? 'border-accent/40 bg-white shadow-sm ring-1 ring-accent/10' : 'border-transparent bg-white/60 hover:bg-white'}`}>
             <div className="text-[11px] text-ink-3 mb-0.5">{day.name}</div>
-            <div className="text-sm font-medium mb-2 leading-tight">{day.title}</div>
+            <div className="text-sm font-medium mb-1 leading-tight">{day.title}</div>
+            <div className="text-[11px] text-ink-3 mb-2">{day.duration}</div>
             <div className="flex items-center justify-between">
               <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${style.bg} ${style.text}`}>
                 {style.label}

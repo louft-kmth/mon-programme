@@ -1,8 +1,8 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'Programme Congé — Spécial Ventre',
-  description: '2 semaines intensives focus ventre',
+  title: 'Mon Programme',
+  description: '4 seances par semaine',
 }
 
 export default function RootLayout({ children }) {

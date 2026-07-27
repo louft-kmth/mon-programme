@@ -1,22 +1,31 @@
 'use client'
-import { Check, Shield, Flame } from 'lucide-react'
+import { Check, Shield, Train } from 'lucide-react'
 
-export default function ExercisePanel({ day, weekIndex, dayIndex, checked, onToggle }) {
+export default function ExercisePanel({ day, dayIndex, mode, checked, onToggle }) {
   let globalIdx = 0
-  const isSport = day.type !== 'repos'
+  const isSport = day.type !== 'repos' && day.type !== 'trajet'
 
   return (
     <div className="bg-white rounded-card border border-bg-3/60 overflow-hidden">
       <div className="px-5 pt-5 pb-3">
         <h3 className="text-lg font-semibold font-display">{day.name} — {day.title}</h3>
-        <p className="text-sm text-ink-3 mt-0.5">Semaine {weekIndex + 1} — Programme congé</p>
+        <p className="text-sm text-ink-3 mt-0.5">{day.duration}</p>
       </div>
 
+      {day.type === 'trajet' && (
+        <div className="mx-5 mb-3 flex items-start gap-2.5 bg-amber-light rounded-lg p-3">
+          <Train size={16} className="text-amber mt-0.5 flex-shrink-0" />
+          <p className="text-sm text-amber-dark">
+            Jour Chartres — 6h de trajet. Tes pas comptent comme activité. Juste le vacuum le soir, rien d'autre.
+          </p>
+        </div>
+      )}
+
       {isSport && (
-        <div className="mx-5 mb-3 flex items-start gap-2.5 bg-coral-light rounded-lg p-3">
-          <Flame size={16} className="text-coral mt-0.5 flex-shrink-0" />
-          <p className="text-sm text-coral-dark">
-            <span className="font-medium">Focus ventre :</span> rentre le ventre + expire sur chaque effort. Périnée serré.
+        <div className="mx-5 mb-3 flex items-start gap-2.5 bg-accent-light rounded-lg p-3">
+          <Shield size={16} className="text-accent mt-0.5 flex-shrink-0" />
+          <p className="text-sm text-accent-dark">
+            <span className="font-medium">Règle périnée :</span> expire sur chaque effort, rentre le ventre. Pas d'apnée sous charge.
           </p>
         </div>
       )}
@@ -28,7 +37,7 @@ export default function ExercisePanel({ day, weekIndex, dayIndex, checked, onTog
             <div className="space-y-0">
               {group.exercises.map((ex, ei) => {
                 globalIdx++
-                const key = `w${weekIndex}d${dayIndex}e${globalIdx}`
+                const key = `${mode}d${dayIndex}e${globalIdx}`
                 const isDone = !!checked[key]
                 return (
                   <button key={ei} onClick={() => onToggle(key)}
